@@ -83,8 +83,8 @@ The **mitoClone2** package provides some sample datasets. However, to emphasize 
 #the files need to be located in R's working directory!
 #-- Download the external data from the mitoClone2 Supplemental Github Page
 SuppGitURL <- "https://github.com/benstory/mitoClone2_supplemental/raw/main/"
-system(paste0("wget ", SuppGitURL,'corces_nt_counts_per_position_rna.RDS'))
-system(paste0("wget ", SuppGitURL,'corces_nt_counts_per_position_quality30_atac.RDS'))
+system(paste0("wget -nv ", SuppGitURL,'corces_nt_counts_per_position_rna.RDS'))
+system(paste0("wget -nv ", SuppGitURL,'corces_nt_counts_per_position_quality30_atac.RDS'))
 #-- Loading the external data from GSE74246 (rna)
 vars.rna <- readRDS('corces_nt_counts_per_position_rna.RDS')
 #-- Loading the external data from GSE74912 (atac)
@@ -181,11 +181,11 @@ hatac <- Heatmap(plotData.atac,col=viridis(100,option='plasma'),show_row_names=T
 The variants identified seem to allow clear differentiation of the individual patients across technologies.
 
 ```{r, eval=TRUE, warning=FALSE}
-#-- Plot heatmaps for both technologies side-by-side - S2
+#-- Plot heatmaps for both technologies side-by-side - S3
 hrna+hatac
 ```
 \linebreak
-__Supplementary Figure S2.__ Allele frequencies of mitochondrial variants identified as patient-specific from RNA-seq.
+__Supplementary Figure S3.__ Allele frequencies of mitochondrial variants identified as patient-specific from RNA-seq.
 
 ## Verifying consistency between ATAC-seq and RNA-seq for putative private variants
 
@@ -215,7 +215,7 @@ Plot the correlation between the RNA-seq and the ATAC-seq.
 ggplot(df.both,aes(x=`RNA-seq`,y=`ATAC-seq`,color=Patient)) + geom_point(size=4) + theme_classic(base_size=14) + geom_abline(slope=1,color='grey',linetype='dashed') + scale_colour_manual(values=pts.colors) + annotate('text',x=0.25,y=0.80,label=paste0('r = ',cor_both$estimate)) + ylab('ATAC-seq\nAllele frequency') + xlab('RNA-seq\nAllele frequency') + theme(plot.margin=unit(c(1,1,1,1),"cm"),legend.text=element_text(size=8)) + guides(color = guide_legend(ncol = 2))
 ```
 \linebreak
-__Supplementary Figure S3.__ Allele frequencies of RNA-seq compared to ATAC-seq with Pearson correlation coefficient.
+__Supplementary Figure S4.__ Allele frequencies of RNA-seq compared to ATAC-seq with Pearson correlation coefficient.
 
 Merge your two large allele frequency data.frames.
 ```{r, eval=TRUE}
@@ -237,11 +237,11 @@ ha_column <- HeatmapAnnotation(df = meta.data[colnames(distmat),],col=distance.c
 
 Plot the distance-matrix heatmap.
 ```{r, eval=TRUE, warning=FALSE}
-#-- S4
+#-- S5
 Heatmap(distmat,col=viridis(100),show_row_names=FALSE,show_column_names=FALSE,top_annotation=ha_column,show_column_dend = FALSE,show_row_dend = FALSE,name='Euclidean\ndistance')
 ```
 \linebreak
-__Supplementary Figure S4.__ Clustered distance matrix of combined variant allele frequencies from ATAC-seq and RNA-seq. 
+__Supplementary Figure S5.__ Clustered distance matrix of combined variant allele frequencies from ATAC-seq and RNA-seq. 
 
 ## Identify variants resulting from cancer evolution
 
@@ -270,26 +270,26 @@ su444_ann <- HeatmapAnnotation(df = subset(meta.data,Patient == 'SU444'), col = 
 Plot the variant allele frequencies for this patient.
 
 ```{r, eval=TRUE}
-#-- S5
+#-- S6
 Heatmap(as.matrix(su444), col=viridis(100,option='plasma'),show_row_names=TRUE,show_column_names=TRUE,top_annotation=su444_ann,column_split = rep(c("RNA-seq", "ATAC-seq"), each=3),show_column_dend = FALSE,show_row_dend = FALSE, name='Allele\nfreq.')
 ```
 \linebreak
-__Supplementary Figure S5.__ A zoomed-in version of (**Supplementary Figure S2**), focused on variants specific to patient SU444.
+__Supplementary Figure S6.__ A zoomed-in version of (**Supplementary Figure S3**), focused on variants specific to patient SU444.
 
 We can also attempt to infer a cancer phylogenetic tree (CPT) relating the different mutations and illustrate their locations using the built-in `mitoPlot` function.
 
 
 ```{r, eval=FALSE}
-#-- If you want to reproduce the final figure (S6) you need to run this step
+#-- If you want to reproduce the final figure (S7) you need to run this step
 #-- However the figure here (below) has undergone significant post-processing
 #-- Use SCITE to infer a CPT for patient SU444
 clust444 <- varCluster(vars.rna.call[['SU444']],method='SCITE')
 
-#-- S6 - bottom
+#-- S7 - bottom
 mitoPlot(fixvarName(names(vars.rna.call[['SU444']]@cluster))[c(1,3,1,2)],patient=rep(rev(c('pHSC','Blast/LSC')),each=2),showLegend=TRUE)
 ```
-![title](S6.pdf)\linebreak
-__Supplementary Figure S6.__ The results of running `SCITE` (top) and the `mitoPlot` function (bottom) on the RNA-seq variant counts from patient SU444. The tree illustrates a potential phylogenetic relationship underlying cancerous clonal evolution differentiating the pre-leukemic (pHSC) sample from the blast/leukemic stem cell (LSC) samples. 
+![title](S7.pdf)\linebreak
+__Supplementary Figure S7.__ The results of running `SCITE` (top) and the `mitoPlot` function (bottom) on the RNA-seq variant counts from patient SU444. The tree illustrates a potential phylogenetic relationship underlying cancerous clonal evolution differentiating the pre-leukemic (pHSC) sample from the blast/leukemic stem cell (LSC) samples. 
 
 
 # Alternate workflow with Exclusionlist filtering method 
@@ -404,11 +404,11 @@ colnames(distmat) <- row.names(distmat)
 distance.colors <- list(Method=c("RNA-seq"="red","ATAC-seq"="blue"),Patient=pts.colors)
 ha_column <- HeatmapAnnotation(df = meta.data[colnames(distmat),],col=distance.colors)
 
-#-- S7
+#-- S8
 Heatmap(distmat,col=viridis(100),show_row_names=FALSE,show_column_names=FALSE,top_annotation=ha_column,show_column_dend = FALSE,show_row_dend = FALSE,name='Euclidean\ndistance')
 ```
 
-__Supplementary Figure S7.__ Clustered distance matrix of combined variant allele frequencies from ATAC-seq and RNA-seq, using Exclusionlist filtering method.
+__Supplementary Figure S8.__ Clustered distance matrix of combined variant allele frequencies from ATAC-seq and RNA-seq, using Exclusionlist filtering method.
 
 ## The Exclusionlist filtering method compared to the cohort method
 
