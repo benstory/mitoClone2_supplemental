@@ -211,7 +211,7 @@ colnames(df.rna)[2] <- 'Patient'
 Plot the correlation between the RNA-seq and the ATAC-seq.
 
 ```{r, eval=TRUE}
-#-- Plot the correlation and allele frequency comparison - S3
+#-- Plot the correlation and allele frequency comparison - S4
 ggplot(df.both,aes(x=`RNA-seq`,y=`ATAC-seq`,color=Patient)) + geom_point(size=4) + theme_classic(base_size=14) + geom_abline(slope=1,color='grey',linetype='dashed') + scale_colour_manual(values=pts.colors) + annotate('text',x=0.25,y=0.80,label=paste0('r = ',cor_both$estimate)) + ylab('ATAC-seq\nAllele frequency') + xlab('RNA-seq\nAllele frequency') + theme(plot.margin=unit(c(1,1,1,1),"cm"),legend.text=element_text(size=8)) + guides(color = guide_legend(ncol = 2))
 ```
 \linebreak
