@@ -27,7 +27,7 @@ The ATAC-seq reads were downloaded on July 28th, 2020, trimmed, and aligned to t
 
 Count tables for each sample were tabulated using the `baseCountsFromBamList` a function included in the mitoClone2 package. The sample name for each putative patient was inferred from the GEO metadata. Only the following patients were included: `6792, 1022, 2596, 5483, 6926, 7256, SU048, SU070, SU209, SU351, SU353, SU444, SU484, SU496, SU501, SU575, SU583, and SU654` as these patients had both ATAC and RNA data available.
 
-We note here that although this is bulk data, we can still treat each sample as if it were a single cell. Although, this includes some caveats the results suggest that the approach is reasonable. 
+We note here that although this is bulk data, we can still treat each sample as if it were a single cell. Although this includes some caveats, the results suggest that the approach is reasonable. 
 
 # Complete workflow
 
@@ -245,7 +245,7 @@ __Supplementary Figure S5.__ Clustered distance matrix of combined variant allel
 
 ## Identify variants resulting from cancer evolution
 
-Even in this bulk sequencing experiment, we see evidence of variants that differ between the cancer and pre-cancerous states.
+Even in this bulk sequencing experiment, we see evidence of variants that differ between the cancerous and pre-cancerous states.
 
 Let's home in on an example, patient SU444, and extract their unique variants.
 
@@ -412,7 +412,7 @@ __Supplementary Figure S8.__ Clustered distance matrix of combined variant allel
 
 ## The Exclusionlist filtering method compared to the cohort method
 
-The Exclusionlist variant filtering approach increased false negative hits and decreased slightly the correlation between RNA-seq and ATAC-seq allele frequencies. It does not work as well as the cohort method for filtering shared variants but still can be used with confidence to identify clones when no other option is available.
+The Exclusionlist variant filtering approach increased false negative hits and slightly decreased the correlation between RNA-seq and ATAC-seq allele frequencies. It does not work as well as the cohort method for filtering shared variants but still can be used with confidence to identify clones when no other option is available.
 
  
 # Session information
