@@ -27,7 +27,7 @@ The ATAC-seq reads were trimmed and aligned to the _Homo sapiens_ hg38 genome us
 
 Count tables for each sample were tabulated using the `baseCountsFromBamList` a function included in the mitoClone2 package. The sample name for each putative patient was inferred from the GEO metadata. Only the following patients were included: `6792, 1022, 2596, 5483, 6926, 7256, SU048, SU070, SU209, SU351, SU353, SU444, SU484, SU496, SU501, SU575, SU583, and SU654` as these patients had both DNA (i.e. ATAC-seq) and RNA data available.
 
-We note here that although this is bulk data, we can still treat each sample as if it were a single cell. Although this includes some caveats, the results suggest that the approach is reasonable. 
+We note here that although this is bulk data, we can still treat each sample as if it were a single cell.
 
 We note at this point that there are two possible filtering methods that can be used for downstream analysis.
 
@@ -109,7 +109,7 @@ vars.rna <- readRDS('corces_nt_counts_per_position_rna.RDS')
 vars.atac <- readRDS('corces_nt_counts_per_position_quality30_atac.RDS')
 ```
 
-We run mutationCallsFromCohort on the RNA-seq allele count tables for each of these patient samples using default parameters excepting for `MINFRAC.OTHER=0.2, MINREADS=500, MINCELL=1, MINCELLS.PATIENT=1`.These parameters are modified from the default values because we are not dealing with single-cell data. The `MINCELL` parameters now refer to total number of samples from each individual patient. Given that there are two or more samples per patient, we require that the variants be present in at least a single sample.
+We run mutationCallsFromCohort on the RNA-seq allele count tables for each of these patient samples using default parameters excepting for `MINFRAC.OTHER=0.2, MINREADS=500, MINCELL=1, MINCELLS.PATIENT=1`.These parameters are modified from the default values because we are not dealing with single-cell data. The `MINCELL` parameter now refers to the total number of samples from each individual patient. Given that there are two or more samples per patient, we require that the variants be present in at least a single sample.
 
 The resulting 153 variants from this command were further filtered to remove 8 universal variants with an allele frequency over 5\% in more than 6 RNA-seq samples (i.e. non-patient exclusive mutations) leaving 145 putative variants of interest.
 
