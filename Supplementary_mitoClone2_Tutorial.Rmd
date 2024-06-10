@@ -29,6 +29,24 @@ Count tables for each sample were tabulated using the `baseCountsFromBamList` a 
 
 We note here that although this is bulk data, we can still treat each sample as if it were a single cell. Although this includes some caveats, the results suggest that the approach is reasonable. 
 
+We note at this point that there are two possible filtering methods that can be used for downstream analysis.
+
+### Cohort Method:
+* Preferred for controlling wet-lab variability by using multiple independent single-cell datasets, generated using the same sequencing method, to exclude shared variants and identify patient/time-point specific variants.
+* The excluded variants could be biological (common polymorphisms) or technical (artifacts from specific reagents or bioinformatics tools).
+* This method helps filter out both technical and biological noise, by determining what signal can be attributed to background noise.
+
+### Exclusion Lists Method:
+* Utilizes established lists of known artifactual or challenging genomic regions, encompassing three sets:
+  - Known RNA-editing sites in mitochondria from REDIportal (PMID: 27587585)
+  - Regions flanking homopolymer stretches of 3 or more nucleotides
+  - Shared variants specific to a given sequencing method
+* The latter set of shared variants, included in the package, is derived from datasets generated using a modified Smart-seq2.
+* This method is ideal for users who lack access to multiple datasets or require a fast, predefined filtering option.
+
+The following sections provide a detailed walkthrough of both filtering methods, starting with the *Cohort* method.
+
+
 # Complete workflow
 
 ## Load packages
@@ -294,8 +312,7 @@ __Supplementary Figure S7.__ The results of running `SCITE` (top) and the `mitoP
 
 # Alternate workflow with Exclusionlist filtering method 
 
-To complete our proof of concept, we apply a different universal variant filtering method based on existing exclusion lists that are shipped with the mitoClone2 package. This filtering method should only be used when the dataset includes only a single sample from one individual/timepoint.
-
+To complete our proof of concept, we apply a different universal variant filtering method based on existing exclusion lists that are shipped with the mitoClone2 package. This filtering method should only be used when the dataset includes only a single sample from one individual/time-point.
 
 We re-import the allele count tables.
 
@@ -410,7 +427,7 @@ Heatmap(distmat,col=viridis(100),show_row_names=FALSE,show_column_names=FALSE,to
 
 __Supplementary Figure S8.__ Clustered distance matrix of combined variant allele frequencies from ATAC-seq and RNA-seq, using Exclusionlist filtering method.
 
-## The Exclusionlist filtering method compared to the cohort method
+## The *Exclusionlist* filtering method compared to the *Cohort* method
 
 The Exclusionlist variant filtering approach increased false negative hits and slightly decreased the correlation between RNA-seq and ATAC-seq allele frequencies. It does not work as well as the cohort method for filtering shared variants but still can be used with confidence to identify clones when no other option is available.
 
