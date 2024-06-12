@@ -431,8 +431,26 @@ __Supplementary Figure S8.__ Clustered distance matrix of combined variant allel
 
 The Exclusionlist variant filtering approach increased false negative hits and slightly decreased the correlation between RNA-seq and ATAC-seq allele frequencies. It does not work as well as the cohort method for filtering shared variants but still can be used with confidence to identify clones when no other option is available.
 
+In conclusion, we suggest that users always use the cohort method whenever possible (i.e. access to multiple similar datasets).
+
+# Adding metadata to Seurat objects
+
+Below is just an example where we add the variant allele frequencies calculated above to the minimal test dataset included with Seurat for illustrative purposes.
+
+```{r, eval=TRUE, results='hide', warning=FALSE, out.height = "256px", message=FALSE}
+library(Seurat)    
+
+## randomly assign our labels to cells
+set.seed(123)
+colnames(pbmc_small)[seq(colnames(plotData))] <- sample(colnames(plotData))
  
-# Session information
+## add the VAF information
+pbmc_small <- AddMetaData(pbmc_small,col.name = 'Variant AF',metadata = plotData['1336G>A',])
+
+## plot the default tSNE and the VAF colored one
+DimPlot(pbmc_small) + FeaturePlot(pbmc_small,features = 'Variant AF', cols=viridis(2))
+```
+
 ```{r label='Session information', eval=TRUE, echo=FALSE}
 sessionInfo()
 ```
