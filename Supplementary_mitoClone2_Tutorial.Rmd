@@ -450,7 +450,7 @@ pbmc_small <- AddMetaData(pbmc_small,col.name = 'Variant AF',metadata = plotData
 ## plot the default tSNE and the VAF colored one
 DimPlot(pbmc_small) + FeaturePlot(pbmc_small,features = 'Variant AF', cols=viridis(2))
 ```
-
+# Session information
 ```{r label='Session information', eval=TRUE, echo=FALSE}
 sessionInfo()
 ```
