@@ -31,12 +31,12 @@ We note here that although this is bulk data, we can still treat each sample as 
 
 We note at this point that there are two possible filtering methods that can be used for downstream analysis.
 
-### Cohort Method:
+### *Cohort* Method:
 * Preferred for controlling wet-lab variability by using multiple independent single-cell datasets, generated using the same sequencing method, to exclude shared variants and identify patient/time-point specific variants.
 * The excluded variants could be biological (common polymorphisms) or technical (artifacts from specific reagents or bioinformatics tools).
 * This method helps filter out both technical and biological noise, by determining what signal can be attributed to background noise.
 
-### Exclusion Lists Method:
+### *Exclusionlist* Method:
 * Utilizes established lists of known artifactual or challenging genomic regions, encompassing three sets:
   - Known RNA-editing sites in mitochondria from REDIportal (PMID: 27587585)
   - Regions flanking homopolymer stretches of 3 or more nucleotides
@@ -310,7 +310,7 @@ mitoPlot(fixvarName(names(vars.rna.call[['SU444']]@cluster))[c(1,3,1,2)],patient
 __Supplementary Figure S7.__ The results of running `SCITE` (top) and the `mitoPlot` function (bottom) on the RNA-seq variant counts from patient SU444. The tree illustrates a potential phylogenetic relationship underlying cancerous clonal evolution differentiating the pre-leukemic (pHSC) sample from the blast/leukemic stem cell (LSC) samples. 
 
 
-# Alternate workflow with Exclusionlist filtering method 
+# Alternate workflow with the *Exclusionlist* filtering method 
 
 To complete our proof of concept, we apply a different universal variant filtering method based on existing exclusion lists that are shipped with the mitoClone2 package. This filtering method should only be used when the dataset includes only a single sample from one individual/time-point.
 
@@ -328,7 +328,7 @@ vars.atac <- readRDS('corces_nt_counts_per_position_quality30_atac.RDS')
 
 We run mutationCallsFromExclusionlist on the RNA-seq allele count tables for each of these patient samples using default parameters to call mutations using the exclusion list included in the package.
 
-## Call variants from the RNA-seq data using provided Exclusionlists
+## Call variants from the RNA-seq data using provided *Exclusionlists*
 ```{r, eval=TRUE}
 # calling mutations using our exclusionlist
 vars.rna.call <- mutationCallsFromExclusionlist(vars.rna)
@@ -425,7 +425,7 @@ ha_column <- HeatmapAnnotation(df = meta.data[colnames(distmat),],col=distance.c
 Heatmap(distmat,col=viridis(100),show_row_names=FALSE,show_column_names=FALSE,top_annotation=ha_column,show_column_dend = FALSE,show_row_dend = FALSE,name='Euclidean\ndistance')
 ```
 
-__Supplementary Figure S8.__ Clustered distance matrix of combined variant allele frequencies from ATAC-seq and RNA-seq, using Exclusionlist filtering method.
+__Supplementary Figure S8.__ Clustered distance matrix of combined variant allele frequencies from ATAC-seq and RNA-seq, using the *Exclusionlist* filtering method.
 
 ## The *Exclusionlist* filtering method compared to the *Cohort* method
 
@@ -450,7 +450,9 @@ pbmc_small <- AddMetaData(pbmc_small,col.name = 'Variant AF',metadata = plotData
 ## plot the default tSNE and the VAF colored one
 DimPlot(pbmc_small) + FeaturePlot(pbmc_small,features = 'Variant AF', cols=viridis(2))
 ```
-# Session information
+\linebreak
+
+Session information
 ```{r label='Session information', eval=TRUE, echo=FALSE}
 sessionInfo()
 ```
